@@ -6,7 +6,7 @@ metadata:
     k8s-app: jenkins
   name: jenkins
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
     - port: 8080
       name: web
