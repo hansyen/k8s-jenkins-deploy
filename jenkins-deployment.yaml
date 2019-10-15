@@ -1,33 +1,29 @@
 
-# cat jenkins-deployment.yaml
-apiVersion: apps/v1beta1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: jenkins
-  labels:
-    k8s-app: jenkins
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      k8s-app: jenkins
+  replicas: 3
   template:
     metadata:
       labels:
-        k8s-app: jenkins
+        app: jenkins
     spec:
       containers:
-      - name: jenkins
-        image: jenkins/jenkins:lts-alpine
-        imagePullPolicy: IfNotPresent
-        volumeMounts:
-        - name: jenkins-home
-          mountPath: /var/jenkins_home
-        ports:
-        - containerPort: 8080
-          name: web
-        - containerPort: 50000
-          name: agent
+        - name: jenkins
+          image: jenkins
+          env:
+            - name: JAVA_OPTS
+              value: -Djenkins.install.runSetupWizard=false
+          ports:
+            - name: http-port
+              containerPort: 8080
+            - name: jnlp-port
+              containerPort: 50000
+          volumeMounts:
+            - name: jenkins-home
+              mountPath: /var/jenkins_home
       volumes:
         - name: jenkins-home
           emptyDir: {}
