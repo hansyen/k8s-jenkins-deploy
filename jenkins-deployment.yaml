@@ -1,10 +1,13 @@
 
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: jenkins
 spec:
   replicas: 3
+  selector:
+    matchLabels:
+      app: jenkins
   template:
     metadata:
       labels:
@@ -12,7 +15,7 @@ spec:
     spec:
       containers:
         - name: jenkins
-          image: jenkins
+          image: ohya/jenkins-docker-k8s
           env:
             - name: JAVA_OPTS
               value: -Djenkins.install.runSetupWizard=false
