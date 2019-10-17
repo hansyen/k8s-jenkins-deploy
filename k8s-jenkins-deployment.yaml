@@ -1,0 +1,32 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-jenkins
+  labels:
+    k8s-app: k8s-jenkins
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      k8s-app: k8s-jenkins
+  template:
+    metadata:
+      labels:
+        k8s-app: k8s-jenkins
+    spec:
+      containers:
+      - name: k8s-jenkins
+        image: jenkins/jenkins:lts-alpine
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: jenkins-home
+          mountPath: /var/jenkins_home
+        ports:
+        - containerPort: 8080
+          name: web
+        - containerPort: 50000
+          name: agent
+      volumes:
+        - name: jenkins-home
+          emptyDir: {}
