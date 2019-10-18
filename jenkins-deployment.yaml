@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: jenkins
-          image: ohya/k8s-jenkins
+          image: ohya/jenkins-docker-k8s
           env:
             - name: JAVA_OPTS
               value: -Djenkins.install.runSetupWizard=false
