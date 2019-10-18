@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: k8s-jenkins
-        image: jenkins/jenkins:lts-alpine
+        image: current
         imagePullPolicy: IfNotPresent
         volumeMounts:
         - name: jenkins-home
